@@ -153,6 +153,34 @@
         .modal-content { background: #fff; padding: 25px; width: 100%; max-width: 420px; border-radius: 10px; position: relative; color: #333; }
         .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #888; }
         
+        #loginModal .modal-content {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            padding: 30px 25px;
+            text-align: center;
+            border-top: 5px solid #2ecc71;
+            animation: modalPopIn 0.3s ease-out;
+        }
+        @keyframes modalPopIn {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        #loginModal h2 { color: #2c3e50; font-size: 22px; font-weight: 700; margin-bottom: 5px; }
+        #loginModal p.modal-subtext { color: #7f8c8d; font-size: 12px; margin-bottom: 20px; }
+        
+        .auth-tabs { display: flex; background: #f1f2f6; border-radius: 8px; padding: 4px; margin-bottom: 20px; }
+        .auth-tab { flex: 1; padding: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 6px; transition: 0.3s; color: #555; }
+        .auth-tab.active { background: #2ecc71; color: white; box-shadow: 0 2px 6px rgba(46,204,113,0.3); }
+
+        #loginModal .form-group { text-align: left; margin-bottom: 15px; }
+        #loginModal .form-group label { font-size: 12px; font-weight: 600; color: #555; margin-bottom: 4px; display: block; }
+        #loginModal input { width: 100%; padding: 10px 12px; border: 1.5px solid #ddd; border-radius: 8px; font-size: 13px; outline: none; transition: 0.3s; background: #fafafa; }
+        #loginModal input:focus { border-color: #2ecc71; box-shadow: 0 0 0 3px rgba(46,204,113,0.15); background: #fff; }
+        #loginModal .admin-btn-save { width: 100%; padding: 11px; border-radius: 8px; font-size: 14px; font-weight: 600; background: #2ecc71; cursor: pointer; border: none; color: white; transition: 0.3s; margin-top: 10px; }
+        #loginModal .admin-btn-save:hover { background: #27ae60; }
+        #loginModal .close-modal { top: 12px; right: 18px; font-size: 20px; color: #aaa; }
+
         .success-modal .modal-content { text-align: center; border-top: 5px solid #2ecc71; animation: popIn 0.3s ease-out;}
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .success-icon { font-size: 45px; color: #2ecc71; margin-bottom: 8px; }
@@ -314,7 +342,7 @@
         .user-content { width: 100%; background: #fff; border-radius: 8px; border: 1px solid #eee; padding: 20px; min-height: 350px; overflow-x: auto;}
         @media(min-width: 768px) { .user-content { width: 75%; padding: 25px; } }
 
-        /* ================= FLOATING & DRAGGABLE & RESIZABLE WIDGETS & VIDEO ================= */
+        /* ================= FLOATING & DRAGGABLE WIDGETS & VIDEO ================= */
         .floating-widget, .floating-video {
             position: fixed;
             z-index: 9999;
@@ -543,13 +571,22 @@
         </div>
     </div>
 
+    <!-- User Dashboard (প্রোফাইল ছবি আপলোড অপশন সহ) -->
     <div id="user-dashboard">
         <div class="container user-layout">
-            <div class="user-sidebar">
-                <div class="sidebar-header" style="background: #34495e;">👤 My Account</div>
-                <div class="sidebar-item active"><div class="sidebar-item-content">🛍️ My Orders</div></div>
-                <div class="sidebar-item" onclick="toggleView('shop')"><div class="sidebar-item-content">🏠 Back to Shop</div></div>
-                <div class="sidebar-item" onclick="logout()" style="color: #e74c3c;"><div class="sidebar-item-content">🚪 Logout</div></div>
+            <div class="user-sidebar" style="text-align: center; padding: 20px;">
+                <div id="userAvatarBox" style="width: 80px; height: 80px; border-radius: 50%; background: #eee; margin: 0 auto 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 28px; border: 2px solid #2ecc71;">
+                    👤
+                </div>
+                <h4 id="dashboardUserEmail" style="font-size: 13px; color: #333; margin-bottom: 15px; word-break: break-all;">user@gmail.com</h4>
+                <div class="form-group" style="text-align: left;">
+                    <label style="font-size: 11px;">Upload Profile Picture:</label>
+                    <input type="file" id="userAvatarUpload" accept="image/*" onchange="updateUserAvatar(this)" style="font-size: 11px; padding: 5px;">
+                </div>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+                <div class="sidebar-item active" style="justify-content: center;"><div class="sidebar-item-content">🛍️ My Orders</div></div>
+                <div class="sidebar-item" onclick="toggleView('shop')" style="justify-content: center;"><div class="sidebar-item-content">🏠 Back to Shop</div></div>
+                <div class="sidebar-item" onclick="logout()" style="color: #e74c3c; justify-content: center;"><div class="sidebar-item-content">🚪 Logout</div></div>
             </div>
             
             <div class="user-content">
@@ -568,6 +605,8 @@
                 <h2>⚙️ Admin Panel</h2>
                 <ul class="admin-nav">
                     <li class="active" onclick="switchAdminTab('sec-orders', this)">🔔 Customer Orders</li>
+                    <li onclick="switchAdminTab('sec-users', this)">👥 Registered Users</li>
+                    <li onclick="switchAdminTab('sec-landing', this)">🌐 Landing Pages</li>
                     <li onclick="switchAdminTab('sec-topbar', this)">🎨 Top Announcement Bar</li>
                     <li onclick="switchAdminTab('sec-sidewidgets', this)">🎯 Side Ads & Widgets</li>
                     <li onclick="switchAdminTab('sec-payment', this)">💳 Payment Settings</li>
@@ -596,6 +635,32 @@
                     <table style="color: #333; font-size: 13px;">
                         <thead><tr><th>Order ID</th><th>Customer Info</th><th>Product Details</th><th>Payment Info</th><th>Status</th><th>Action</th></tr></thead>
                         <tbody id="adminOrdersList"></tbody>
+                    </table>
+                </div>
+
+                <!-- ইউজার ম্যানেজমেন্ট ট্যাব (ডিলিট ও ব্লক অপশন সহ) -->
+                <div id="sec-users" class="admin-section">
+                    <p style="margin-bottom: 15px; color:#7f8c8d;">Manage registered users (Delete or Block).</p>
+                    <table>
+                        <thead><tr><th>Avatar</th><th>Email</th><th>Password</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="adminUsersListBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- ল্যান্ডিং পেজ ক্রিয়েটর -->
+                <div id="sec-landing" class="admin-section">
+                    <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 15px; color:#2c3e50;">Create / Upload Landing Page</h4>
+                        <div class="form-group"><label>Landing Page Title:</label><input type="text" id="lpTitle" placeholder="e.g. Special AI Offer"></div>
+                        <div class="form-group"><label>Landing Page Slug (URL path):</label><input type="text" id="lpSlug" placeholder="e.g. special-offer"></div>
+                        <div class="form-group"><label>Method 1: HTML Code (Paste your custom HTML code here):</label><textarea id="lpCode" rows="6" placeholder="<div>Your custom HTML code...</div>"></textarea></div>
+                        <div class="form-group"><label>Method 2: Or Upload HTML File:</label><input type="file" id="lpFile" accept=".html"></div>
+                        <button class="admin-btn-save" onclick="saveLandingPage()">Publish Landing Page</button>
+                    </div>
+                    <h4 style="margin-bottom: 10px;">Active Landing Pages</h4>
+                    <table>
+                        <thead><tr><th>Title</th><th>Slug / URL</th><th>Action</th></tr></thead>
+                        <tbody id="adminLandingListBody"></tbody>
                     </table>
                 </div>
 
@@ -797,23 +862,44 @@
         </div>
     </div>
 
+    <!-- Admin Login Modal -->
     <div id="adminLoginModal" class="modal">
         <div class="modal-content dark-modal" style="text-align: center;">
             <span class="close-modal" onclick="closeModal('adminLoginModal')">×</span>
             <h2 style="color: #2ecc71; margin-bottom: 10px;">Admin Security</h2>
-            <p style="color: #bdc3c7; font-size: 13px; margin-bottom: 20px;">Please verify your identity or skip to access panel.</p>
+            <p style="color: #bdc3c7; font-size: 13px; margin-bottom: 20px;">Please verify your identity to access panel.</p>
             <div class="form-group"><input type="password" id="adminPass" placeholder="Admin Password" style="background:#34495e; color:white; border:1px solid #7f8c8d;"></div>
             <div class="form-group">
                 <label style="color:#bdc3c7; text-align:left; font-size:12px; margin-bottom:3px;">Security Question: What is your admin security key?</label>
                 <input type="text" id="admin2FA" placeholder="Enter Security Answer" style="background:#34495e; color:white; border:1px solid #7f8c8d;">
             </div>
             <button class="admin-btn-save" style="width: 100%; margin-top: 10px;" onclick="processAdminLogin()">Verify & Login</button>
-            <button onclick="skipAdminLogin()" style="width: 100%; margin-top: 8px; background: transparent; border: 1px dashed #7f8c8d; color: #bdc3c7; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s;">Skip & Enter Admin Panel</button>
-            <p style="margin-top: 15px; font-size: 12px; color: #e74c3c;">Demo - Pass: admin123 | Answer: 123456</p>
         </div>
     </div>
 
-    <div id="loginModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('loginModal')">×</span><h2 style="color: #2ecc71; margin-bottom: 15px; text-align:center;">Login / Sign Up</h2><div class="form-group"><input type="email" id="userEmail" placeholder="Enter your email address"></div><button class="admin-btn-save" style="width: 100%;" onclick="processLogin()">Continue</button></div></div>
+    <!-- Login / Sign Up Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('loginModal')">×</span>
+            <h2 id="authModalTitle">Welcome Back</h2>
+            <p class="modal-subtext" id="authModalSub">Login with your email and password</p>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="tabLogin" onclick="switchAuthMode('login')">Login</div>
+                <div class="auth-tab" id="tabSignup" onclick="switchAuthMode('signup')">Sign Up</div>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="authEmail" placeholder="Enter your email address">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="authPassword" placeholder="Enter your password">
+            </div>
+            <button class="admin-btn-save" id="authSubmitBtn" onclick="processAuth()">Login</button>
+        </div>
+    </div>
     
     <div id="actionSuccessModal" class="modal success-modal">
         <div class="modal-content">
@@ -854,6 +940,9 @@
         </div>
     </div>
 
+    <!-- ল্যান্ডিং পেজ ভিউয়ার কন্টেইনার -->
+    <div id="landing-page-view" style="display:none; min-height: 100vh; background:#fff;"></div>
+
     <div class="mobile-bottom-nav">
         <div class="nav-item active" onclick="toggleView('shop')">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -888,23 +977,23 @@
             measurementId: "G-2YVSXKZ52E"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         console.log("Firebase Connected Successfully!");
     </script>
 
     <script>
-        const CAT_KEY = 'eG_Cat_65'; const PROD_KEY = 'eG_Prod_65'; const BANNER_KEY = 'eG_Ban_65'; const LOGO_KEY = 'eG_Logo_65'; const ORDERS_KEY = 'eG_Ord_65'; const PAY_SET_KEY = 'eG_PaySet_65'; const NOTICE_KEY = 'eG_Notice_65'; const VIDEO_KEY = 'eG_Vid_65'; const VID_CONFIG_KEY = 'eG_VidConf_65'; const FOOTER_KEY = 'eG_Footer_65'; const TOPBAR_KEY = 'eG_TopBar_65'; const ADS_KEY = 'eG_Ads_65'; const SIDE_WIDGETS_KEY = 'eG_SideWidgets_65';
+        const CAT_KEY = 'eG_Cat_65'; const PROD_KEY = 'eG_Prod_65'; const BANNER_KEY = 'eG_Ban_65'; const LOGO_KEY = 'eG_Logo_65'; const ORDERS_KEY = 'eG_Ord_65'; const PAY_SET_KEY = 'eG_PaySet_65'; const NOTICE_KEY = 'eG_Notice_65'; const VIDEO_KEY = 'eG_Vid_65'; const VID_CONFIG_KEY = 'eG_VidConf_65'; const FOOTER_KEY = 'eG_Footer_65'; const TOPBAR_KEY = 'eG_TopBar_65'; const ADS_KEY = 'eG_Ads_65'; const SIDE_WIDGETS_KEY = 'eG_SideWidgets_65'; const USERS_KEY = 'eG_Users_65'; const LANDING_KEY = 'eG_Landings_65';
+        
         let currentUser = localStorage.getItem('eG_User');
         let isAdminLoggedIn = false; 
         let currentSlide = 0; let slideInterval;
         let cartTotal = 0; let cartPrice = 0;
+        let authMode = 'login'; 
         
         let qvCurrentProd = null; let qvSelectedOpt = "Private Screen 1M"; let qvCurrentQty = 1;
         let selectedPaymentMethod = "Bkash"; let currentPaySettings = null; 
 
-        // PDP State Variables
         let currentPdpProd = null; let pdpQty = 1;
 
         const defaultCats = [ 
@@ -994,8 +1083,13 @@
         };
 
         const defaultSideWidgets = [
-            { id: 'sw1', url: 'https://picsum.photos/250/300?random=10', show: 'show', side: 'right', top: '150px', right: '3%', width: '220px', height: '180px', opacity: 1.0 },
-            { id: 'sw2', url: 'https://picsum.photos/250/350?random=11', show: 'show', side: 'right', top: '350px', right: '3%', width: '220px', height: '220px', opacity: 1.0 }
+            { id: 'sw1', url: 'https://picsum.photos/250/300?random=10', show: 'show', side: 'right', top: '235px', right: '3%', width: '260px', height: '180px', opacity: 1.0 }
+        ];
+
+        const customUserBanners = [
+            "d77f32af-f8f2-47ad-9fe4-0588ae64b827.jfif",
+            "5f5e0135-8755-43f2-9821-b8a4bdf82ced.jfif",
+            "e1d5eac7-1ab8-4a10-81c6-ea5074066562.jfif"
         ];
 
         const dbPromise = new Promise((resolve) => { const req = indexedDB.open('eGoodsy_V65', 1); req.onupgradeneeded = (e) => e.target.result.createObjectStore('store'); req.onsuccess = (e) => resolve(e.target.result); });
@@ -1004,21 +1098,55 @@
 
         window.onload = async function() {
             let cats = await getDB(CAT_KEY); if(!cats) { await setDB(CAT_KEY, defaultCats); await setDB(PROD_KEY, defaultProds); }
-            let banners = await getDB(BANNER_KEY); if(!banners || banners.length === 0) { await setDB(BANNER_KEY, ["image_e564ab.jpg", "image_e564ed.jpg", "image_e56529.jpg"]); }
+            let banners = await getDB(BANNER_KEY); if(!banners || banners.length === 0) { await setDB(BANNER_KEY, customUserBanners); }
+
+            let vidConf = await getDB(VID_CONFIG_KEY);
+            if(!vidConf) {
+                await setDB(VID_CONFIG_KEY, { url: "", show: "show", count: 1, dragPerm: "admin", opacity: 1.0 });
+            }
+
+            if(currentUser) {
+                let users = await getDB(USERS_KEY) || [];
+                let u = users.find(x => x.email === currentUser);
+                if(u && u.isBlocked) {
+                    alert("Your account has been blocked by admin!");
+                    localStorage.removeItem('eG_User');
+                    currentUser = null;
+                }
+            }
+
+            checkLandingPageRouting();
 
             await loadLogo(); await loadNotice(); await loadTopBar(); await loadSideWidgets(); await loadPaymentSettings(); await loadFooterSettings(); await loadVideo(); await renderBanners(); updateAuthUI(); await reloadData(); startTimer();
         };
 
-        // UI Views
+        async function checkLandingPageRouting() {
+            let path = window.location.hash.replace('#/', '');
+            if(path && path.startsWith('lp/')) {
+                let slug = path.replace('lp/', '');
+                let landings = await getDB(LANDING_KEY) || [];
+                let page = landings.find(l => l.slug === slug);
+                if(page) {
+                    ['shop-view', 'category-view', 'product-details-view', 'checkout-view', 'user-dashboard', 'admin-panel'].forEach(id => {
+                        let el = document.getElementById(id);
+                        if(el) el.style.display = 'none';
+                    });
+                    let lpView = document.getElementById('landing-page-view');
+                    lpView.style.display = 'block';
+                    lpView.innerHTML = page.code;
+                }
+            }
+        }
+
         function toggleView(view, categoryId = null) {
             if(view === 'admin' && !isAdminLoggedIn) { openModal('adminLoginModal'); return; }
-            ['shop-view', 'category-view', 'product-details-view', 'checkout-view', 'user-dashboard', 'admin-panel'].forEach(id => {
+            ['shop-view', 'category-view', 'product-details-view', 'checkout-view', 'user-dashboard', 'admin-panel', 'landing-page-view'].forEach(id => {
                 let el = document.getElementById(id);
                 if(el) el.style.display = 'none';
             });
             
-            if(view === 'admin') { document.getElementById('admin-panel').style.display = 'block'; loadAdminOrders(); loadAdminWidgetsList(); }
-            else if (view === 'dashboard') { if(!currentUser) return openModal('loginModal'); document.getElementById('user-dashboard').style.display = 'block'; loadUserOrders(); }
+            if(view === 'admin') { document.getElementById('admin-panel').style.display = 'block'; loadAdminOrders(); loadAdminUsersList(); loadAdminLandingsList(); loadAdminWidgetsList(); }
+            else if (view === 'dashboard') { if(!currentUser) return openModal('loginModal'); document.getElementById('user-dashboard').style.display = 'block'; loadUserData(); loadUserOrders(); }
             else if (view === 'category') { document.getElementById('category-view').style.display = 'block'; openCategoryPage(categoryId); }
             else if (view === 'product-details') { document.getElementById('product-details-view').style.display = 'block'; }
             else if (view === 'checkout') { document.getElementById('checkout-view').style.display = 'block'; }
@@ -1027,14 +1155,7 @@
 
         function processAdminLogin() {
             let pass = document.getElementById('adminPass').value; let tfa = document.getElementById('admin2FA').value;
-            if(pass === 'admin123' && tfa === '123456') { isAdminLoggedIn = true; closeModal('adminLoginModal'); document.getElementById('adminPass').value = ''; document.getElementById('admin2FA').value = ''; toggleView('admin'); } else { alert("Incorrect Password or Security Answer!\n\nHint:\nPassword: admin123\nAnswer: 123456"); }
-        }
-        function skipAdminLogin() {
-            isAdminLoggedIn = true;
-            closeModal('adminLoginModal');
-            document.getElementById('adminPass').value = '';
-            document.getElementById('admin2FA').value = '';
-            toggleView('admin');
+            if(pass === 'admin123' && tfa === '123456') { isAdminLoggedIn = true; closeModal('adminLoginModal'); document.getElementById('adminPass').value = ''; document.getElementById('admin2FA').value = ''; toggleView('admin'); } else { alert("Incorrect Password or Security Answer!"); }
         }
         function logoutAdmin() { isAdminLoggedIn = false; toggleView('shop'); alert("Admin Logged Out Successfully!"); }
 
@@ -1054,7 +1175,6 @@
             loadRecentOrdersTable(); 
         }
 
-        // --- USER SEARCH FUNCTIONALITY ---
         async function handleUserSearch(query) {
             let prods = await getDB(PROD_KEY) || [];
             let visibleProds = prods.filter(p => !p.visibility || p.visibility === 'show');
@@ -1073,7 +1193,6 @@
             handleUserSearch(q);
         }
 
-        // --- ADMIN PRODUCT LIST SEARCH ---
         async function filterAdminProductList(query) {
             let prods = await getDB(PROD_KEY) || [];
             let cats = await getDB(CAT_KEY) || [];
@@ -1095,15 +1214,222 @@
             document.getElementById('adminProductList').innerHTML = html;
         }
 
-        // Auth
         function updateAuthUI() { let authSec = document.getElementById('authSection'); if(currentUser) { authSec.innerHTML = `<span id="cartCount">🛒 ${cartTotal} Items</span> <span style="color:#2ecc71;">👤 ${currentUser.split('@')[0]}</span> <button class="btn-primary" onclick="toggleView('dashboard')">My Dashboard</button> <a class="admin-btn" onclick="toggleView('admin')">⚙️ Admin</a>`; } else { authSec.innerHTML = `<span id="cartCount">🛒 ${cartTotal} Items</span> <button class="btn-primary" onclick="openModal('loginModal')">👤 Login</button> <a class="admin-btn" onclick="toggleView('admin')">⚙️ Admin</a>`; } }
-        function processLogin() { let email = document.getElementById('userEmail').value; if(email.includes('@')) { localStorage.setItem('eG_User', email); currentUser = email; updateAuthUI(); closeModal('loginModal'); showSuccess("Login Successful", "Welcome to eGoodsy!"); } else alert("Invalid email"); }
+
+        function switchAuthMode(mode) {
+            authMode = mode;
+            let title = document.getElementById('authModalTitle');
+            let sub = document.getElementById('authModalSub');
+            let btn = document.getElementById('authSubmitBtn');
+            let tabLogin = document.getElementById('tabLogin');
+            let tabSignup = document.getElementById('tabSignup');
+
+            if(mode === 'login') {
+                title.innerText = "Welcome Back";
+                sub.innerText = "Login with your email and password";
+                btn.innerText = "Login";
+                tabLogin.classList.add('active');
+                tabSignup.classList.remove('active');
+            } else {
+                title.innerText = "Create Account";
+                sub.innerText = "Sign up with your email and password";
+                btn.innerText = "Sign Up";
+                tabSignup.classList.add('active');
+                tabLogin.classList.remove('active');
+            }
+        }
+
+        async function processAuth() {
+            let email = document.getElementById('authEmail').value.trim();
+            let pass = document.getElementById('authPassword').value.trim();
+
+            if(!email || !email.includes('@') || !pass) {
+                alert("Please enter a valid email and password!");
+                return;
+            }
+
+            let users = await getDB(USERS_KEY) || [];
+
+            if(authMode === 'signup') {
+                let existing = users.find(u => u.email === email);
+                if(existing) {
+                    alert("This email is already registered! Please login.");
+                    switchAuthMode('login');
+                    return;
+                }
+                let newUser = {
+                    email: email,
+                    password: pass,
+                    avatar: "",
+                    isBlocked: false,
+                    date: new Date().toISOString().split('T')[0]
+                };
+                users.push(newUser);
+                await setDB(USERS_KEY, users);
+                
+                localStorage.setItem('eG_User', email);
+                currentUser = email;
+                updateAuthUI();
+                closeModal('loginModal');
+                document.getElementById('authEmail').value = "";
+                document.getElementById('authPassword').value = "";
+                showSuccess("Sign Up Successful!", "Your account has been created successfully.");
+            } else {
+                let user = users.find(u => u.email === email && u.password === pass);
+                if(!user) {
+                    alert("Incorrect email or password! Please check your credentials.");
+                    return;
+                }
+                if(user.isBlocked) {
+                    alert("Your account has been blocked by admin!");
+                    return;
+                }
+                localStorage.setItem('eG_User', email);
+                currentUser = email;
+                updateAuthUI();
+                closeModal('loginModal');
+                document.getElementById('authEmail').value = "";
+                document.getElementById('authPassword').value = "";
+                showSuccess("Login Successful", "Welcome back to eGoodsy!");
+            }
+        }
+
+        async function loadUserData() {
+            if(!currentUser) return;
+            document.getElementById('dashboardUserEmail').innerText = currentUser;
+            let users = await getDB(USERS_KEY) || [];
+            let user = users.find(u => u.email === currentUser);
+            let avatarBox = document.getElementById('userAvatarBox');
+            if(user && user.avatar) {
+                avatarBox.innerHTML = `<img src="${user.avatar}" style="width:100%; height:100%; object-fit:cover;">`;
+            } else {
+                avatarBox.innerHTML = "👤";
+            }
+        }
+
+        async function updateUserAvatar(input) {
+            if(input.files && input.files[0] && currentUser) {
+                let compressedImg = await compressImage(input.files[0], 250);
+                let users = await getDB(USERS_KEY) || [];
+                let idx = users.findIndex(u => u.email === currentUser);
+                if(idx !== -1) {
+                    users[idx].avatar = compressedImg;
+                } else {
+                    users.push({ email: currentUser, password: "", avatar: compressedImg, isBlocked: false, date: new Date().toISOString().split('T')[0] });
+                }
+                await setDB(USERS_KEY, users);
+                loadUserData();
+                alert("Profile Picture Updated Successfully!");
+            }
+        }
+
+        async function loadAdminUsersList() {
+            let users = await getDB(USERS_KEY) || [];
+            let tbody = document.getElementById('adminUsersListBody');
+            tbody.innerHTML = "";
+            if(users.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No registered users yet.</td></tr>`;
+                return;
+            }
+            users.forEach((u, index) => {
+                let avHtml = u.avatar ? `<img src="${u.avatar}" style="width:30px; height:30px; border-radius:50%; object-fit:cover;">` : "👤";
+                let blockBtnText = u.isBlocked ? "Unblock" : "Block";
+                let blockBtnColor = u.isBlocked ? "#2ecc71" : "#e67e22";
+                let statusText = u.isBlocked ? `<span style="color:red; font-weight:bold;">Blocked</span>` : `<span style="color:green; font-weight:bold;">Active</span>`;
+                
+                tbody.innerHTML += `<tr><td style="text-align:center;">${avHtml}</td><td><b>${u.email}</b></td><td><code>${u.password}</code></td><td>${statusText}</td><td><button class="btn-edit" style="background:${blockBtnColor};" onclick="toggleBlockUser(${index})">${blockBtnText}</button> <button class="btn-delete" onclick="deleteUser(${index})">Delete</button></td></tr>`;
+            });
+        }
+
+        async function toggleBlockUser(index) {
+            let users = await getDB(USERS_KEY) || [];
+            users[index].isBlocked = !users[index].isBlocked;
+            await setDB(USERS_KEY, users);
+            loadAdminUsersList();
+            alert("User status updated!");
+        }
+
+        async function deleteUser(index) {
+            if(confirm("Are you sure you want to delete this user?")) {
+                let users = await getDB(USERS_KEY) || [];
+                users.splice(index, 1);
+                await setDB(USERS_KEY, users);
+                loadAdminUsersList();
+                alert("User deleted successfully!");
+            }
+        }
+
+        async function saveLandingPage() {
+            let title = document.getElementById('lpTitle').value.trim();
+            let slug = document.getElementById('lpSlug').value.trim().toLowerCase().replace(/\s+/g, '-');
+            let code = document.getElementById('lpCode').value.trim();
+            let fileInput = document.getElementById('lpFile');
+
+            if(!title || !slug) {
+                alert("Please provide Title and Slug!");
+                return;
+            }
+
+            if(fileInput.files && fileInput.files[0]) {
+                let reader = new FileReader();
+                reader.onload = async (e) => {
+                    let fileContent = e.target.result;
+                    await storeAndPublishLanding(title, slug, fileContent);
+                };
+                reader.readAsText(fileInput.files[0]);
+            } else if(code) {
+                await storeAndPublishLanding(title, slug, code);
+            } else {
+                alert("Please paste HTML code or upload an HTML file!");
+            }
+        }
+
+        async function storeAndPublishLanding(title, slug, code) {
+            let landings = await getDB(LANDING_KEY) || [];
+            let existingIdx = landings.findIndex(l => l.slug === slug);
+            let newPage = { title, slug, code };
+            if(existingIdx !== -1) {
+                landings[existingIdx] = newPage;
+            } else {
+                landings.push(newPage);
+            }
+            await setDB(LANDING_KEY, landings);
+            document.getElementById('lpTitle').value = "";
+            document.getElementById('lpSlug').value = "";
+            document.getElementById('lpCode').value = "";
+            document.getElementById('lpFile').value = "";
+            loadAdminLandingsList();
+            alert(`Landing page created successfully! URL: #${slug}`);
+        }
+
+        async function loadAdminLandingsList() {
+            let landings = await getDB(LANDING_KEY) || [];
+            let tbody = document.getElementById('adminLandingListBody');
+            tbody.innerHTML = "";
+            if(landings.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;">No landing pages created.</td></tr>`;
+                return;
+            }
+            landings.forEach((l, index) => {
+                let fullUrl = window.location.origin + window.location.pathname + '#/lp/' + l.slug;
+                tbody.innerHTML += `<tr><td><b>${l.title}</b></td><td><a href="#/lp/${l.slug}" target="_blank" style="color:#2ecc71;">${fullUrl}</a></td><td><button class="btn-delete" onclick="deleteLandingPage(${index})">Delete</button></td></tr>`;
+            });
+        }
+
+        async function deleteLandingPage(index) {
+            if(confirm("Delete this landing page?")) {
+                let landings = await getDB(LANDING_KEY) || [];
+                landings.splice(index, 1);
+                await setDB(LANDING_KEY, landings);
+                loadAdminLandingsList();
+            }
+        }
+
         function logout() { localStorage.removeItem('eG_User'); currentUser = null; updateAuthUI(); toggleView('shop'); }
 
         async function loadNotice() { let notice = await getDB(NOTICE_KEY); if(notice) document.getElementById('displayNotice').innerText = "📢 " + notice; }
         async function updateNotice() { let noticeTxt = document.getElementById('adminNoticeInput').value; if(noticeTxt) { await setDB(NOTICE_KEY, noticeTxt); await loadNotice(); alert("Notice Updated Successfully!"); document.getElementById('adminNoticeInput').value = ''; } }
 
-        // Side Widgets Loader
         async function loadSideWidgets() {
             let widgets = await getDB(SIDE_WIDGETS_KEY);
             if(!widgets) { widgets = defaultSideWidgets; await setDB(SIDE_WIDGETS_KEY, widgets); }
@@ -1117,7 +1443,7 @@
                     div.className = 'floating-widget';
                     div.id = 'sideWidget_' + index;
                     div.style.display = 'block';
-                    div.style.top = w.top;
+                    div.style.top = w.top || '235px';
                     if(w.side === 'left') { div.style.left = w.left || '20px'; div.style.right = 'auto'; }
                     else { div.style.right = w.right || '3%'; div.style.left = 'auto'; }
                     div.style.width = w.width || '260px';
@@ -1150,7 +1476,7 @@
                         url: e.target.result,
                         show: show,
                         side: side,
-                        top: (150 + (widgets.length * 50)) + 'px',
+                        top: '235px',
                         right: side === 'right' ? '3%' : 'auto',
                         left: side === 'left' ? '20px' : 'auto',
                         width: '260px',
@@ -1240,7 +1566,6 @@
         async function loadTopBar() {}
         async function saveTopBarSettings() {}
 
-        // Footer Settings
         async function loadFooterSettings() {
             let footerSet = await getDB(FOOTER_KEY);
             if(!footerSet) { footerSet = defaultFooterSettings; await setDB(FOOTER_KEY, footerSet); }
@@ -1287,9 +1612,8 @@
             filesInput.value = "";
         }
 
-        // Floating Video Loader
         async function loadVideo() {
-            let config = await getDB(VID_CONFIG_KEY) || { url: "https://www.w3schools.com/html/mov_bbb.mp4", show: "hide", count: 1, dragPerm: "admin", opacity: 1.0 };
+            let config = await getDB(VID_CONFIG_KEY) || { url: "", show: "show", count: 1, dragPerm: "admin", opacity: 1.0 };
             let wrapper = document.getElementById('videoPlayersWrapper'); 
             wrapper.innerHTML = "";
             
@@ -1302,12 +1626,14 @@
                 div.style.display = 'block';
                 div.style.width = '260px'; 
                 div.style.height = '180px'; 
-                div.style.right = (3 + (i * 15)) + '%'; 
-                div.style.top = (120 + (i * 200)) + 'px';
+                div.style.right = '3%'; 
+                div.style.top = '30px'; 
                 div.style.opacity = config.opacity !== undefined ? config.opacity : 1.0;
                 
                 let handleHTML = (isAdminLoggedIn || config.dragPerm === "all") ? `<div class="video-drag-handle" style="display:block;" onmousedown="startDragging(event, ${i})">DRAG ME ✥</div>` : ``;
-                div.innerHTML = `${handleHTML}<video src="${config.url}" autoplay loop muted playsinline controls></video>`;
+                
+                let videoSrc = config.url ? config.url : "";
+                div.innerHTML = `${handleHTML}<video src="${videoSrc}" autoplay loop muted playsinline controls></video>`;
                 wrapper.appendChild(div);
             }
             
@@ -1326,7 +1652,7 @@
             let opacity = parseFloat(document.getElementById('adminVideoOpacity').value) || 1.0;
             let fileInput = document.getElementById('adminVideoInput');
 
-            let oldConfig = await getDB(VID_CONFIG_KEY) || { url: "https://www.w3schools.com/html/mov_bbb.mp4" }; 
+            let oldConfig = await getDB(VID_CONFIG_KEY) || { url: "" }; 
             let videoUrl = oldConfig.url;
 
             if (fileInput.files && fileInput.files[0]) {
@@ -1368,12 +1694,10 @@
         }
         function onMouseUp() { isDragging = false; activeDragEl = null; document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); }
 
-        // Payment Settings
         async function loadPaymentSettings() { let sets = await getDB(PAY_SET_KEY); if(!sets) { sets = defaultPaySettings; await setDB(PAY_SET_KEY, sets); } currentPaySettings = sets; document.getElementById('adminBkashNumber').value = sets.bkash.number; document.getElementById('adminBkashInst').value = sets.bkash.instructions; document.getElementById('adminBinanceId').value = sets.binance.id; document.getElementById('adminBinanceInst').value = sets.binance.instructions; document.getElementById('chkBkashLogo').src = sets.bkash.logo; document.getElementById('chkBinanceLogo').src = sets.binance.logo; selectPayment(selectedPaymentMethod); }
         async function savePaymentSettings() { let sets = { ...currentPaySettings }; sets.bkash.number = document.getElementById('adminBkashNumber').value; sets.bkash.instructions = document.getElementById('adminBkashInst').value; sets.binance.id = document.getElementById('adminBinanceId').value; sets.binance.instructions = document.getElementById('adminBinanceInst').value; let bk = document.getElementById('adminBkashLogo').files[0]; if(bk) sets.bkash.logo = await compressImage(bk, 300); let bn = document.getElementById('adminBinanceLogo').files[0]; if(bn) sets.binance.logo = await compressImage(bn, 300); await setDB(PAY_SET_KEY, sets); await loadPaymentSettings(); alert("Settings Updated!"); }
         function selectPayment(method) { selectedPaymentMethod = method; document.getElementById('payBkash').classList.remove('active'); document.getElementById('payBinance').classList.remove('active'); document.getElementById('pay' + method).classList.add('active'); let instBox = document.getElementById('payInstBox'); if(method === 'Bkash') { let formattedInst = currentPaySettings.bkash.instructions.replace(/\n/g, '<br>'); instBox.innerHTML = `<h4><img src="${currentPaySettings.bkash.logo}" style="height: 20px;"> ${currentPaySettings.bkash.number} 📋</h4><p>${formattedInst}</p>`; document.getElementById('chkPayNumber').placeholder = "Your Account Number*"; } else { let formattedInst = currentPaySettings.binance.instructions.replace(/\n/g, '<br>'); instBox.innerHTML = `<h4><img src="${currentPaySettings.binance.logo}" style="height: 20px;"> Binance Pay ID: ${currentPaySettings.binance.id} 📋</h4><p>${formattedInst}</p>`; document.getElementById('chkPayNumber').placeholder = "Your Binance Pay ID*"; } }
 
-        // Product Details Page Logic
         async function openProductDetails(prodStr) {
             let p = JSON.parse(decodeURIComponent(prodStr));
             currentPdpProd = p; pdpQty = 1;
@@ -1501,7 +1825,6 @@
             toggleView('shop');
         }
 
-        // Render Functions
         function getIconHTML(cat) { return cat.iconUrl ? `<img src="${cat.iconUrl}">` : cat.name.substring(0,2).toUpperCase(); }
         function renderHomeCategories(cats) { let html = ""; cats.forEach(c => { html += `<div class="category-card" onclick="toggleView('category', '${c.id}')"><div class="category-icon">${getIconHTML(c)}</div><div class="category-title">${c.name}</div></div>`; }); document.getElementById('homeCategories').innerHTML = html; }
         
@@ -1644,10 +1967,10 @@
         async function loadLogo() { let logo = await getDB(LOGO_KEY); document.getElementById('siteLogo').innerHTML = logo ? `<img src="${logo}">` : "eGoodsy"; }
         async function updateLogo() { let file = document.getElementById('adminLogoInput').files[0]; if(file) { await setDB(LOGO_KEY, await compressImage(file, 400)); loadLogo(); alert("Logo Updated!"); } }
         async function updateBanners() { let files = document.getElementById('adminBannerInput').files; if(files.length===0) return; let images = []; for (let i = 0; i < files.length; i++) images.push(await compressImage(files[i], 1200)); await setDB(BANNER_KEY, images); renderBanners(); }
-        async function renderBanners() { let banners = await getDB(BANNER_KEY) || []; let slider = document.getElementById('mainBannerSlider'); clearInterval(slideInterval); if (banners.length === 0) return; slider.style.border = "none"; slider.innerHTML = ""; banners.forEach((src, i) => { slider.innerHTML += `<div class="banner-slide ${i === 0 ? 'active' : ''}" style="background-image: url('${src}');"></div>`; }); if(banners.length > 1) slideInterval = setInterval(() => { let slides = document.querySelectorAll('.banner-slide'); slides[currentSlide].classList.remove('active'); currentSlide = (currentSlide + 1) % slides.length; slides[currentSlide].classList.add('active'); }, 3000); }
+        async function renderBanners() { let banners = await getDB(BANNER_KEY) || customUserBanners; let slider = document.getElementById('mainBannerSlider'); clearInterval(slideInterval); if (banners.length === 0) return; slider.style.border = "none"; slider.innerHTML = ""; banners.forEach((src, i) => { slider.innerHTML += `<div class="banner-slide ${i === 0 ? 'active' : ''}" style="background-image: url('${src}');"></div>`; }); if(banners.length > 1) slideInterval = setInterval(() => { let slides = document.querySelectorAll('.banner-slide'); slides[currentSlide].classList.remove('active'); currentSlide = (currentSlide + 1) % slides.length; slides[currentSlide].classList.add('active'); }, 3000); }
         function compressImage(file, maxW) { return new Promise(res => { let reader = new FileReader(); reader.readAsDataURL(file); reader.onload = e => { let img = new Image(); img.src = e.target.result; img.onload = () => { let canvas = document.createElement('canvas'); let scale = Math.min(maxW / img.width, 1); canvas.width = img.width * scale; canvas.height = img.height * scale; canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height); res(canvas.toDataURL('image/jpeg', 0.8)); }; }; }); }
         
-        async function resetAllData() { if(confirm("Factory Reset?")) { await setDB(CAT_KEY, defaultCats); await setDB(PROD_KEY, defaultProds); await setDB(BANNER_KEY, ["image_e564ab.jpg", "image_e564ed.jpg", "image_e56529.jpg"]); await setDB(LOGO_KEY, null); await setDB(ORDERS_KEY, []); await setDB(PAY_SET_KEY, defaultPaySettings); await setDB(NOTICE_KEY, ""); await setDB(VIDEO_KEY, ""); await setDB(VID_CONFIG_KEY, null); await setDB(FOOTER_KEY, null); await setDB(TOPBAR_KEY, null); await setDB(ADS_KEY, null); await setDB(SIDE_WIDGETS_KEY, null); window.location.reload(); } }
+        async function resetAllData() { if(confirm("Factory Reset?")) { await setDB(CAT_KEY, defaultCats); await setDB(PROD_KEY, defaultProds); await setDB(BANNER_KEY, customUserBanners); await setDB(LOGO_KEY, null); await setDB(ORDERS_KEY, []); await setDB(USERS_KEY, []); await setDB(LANDING_KEY, []); await setDB(PAY_SET_KEY, defaultPaySettings); await setDB(NOTICE_KEY, ""); await setDB(VIDEO_KEY, ""); await setDB(VID_CONFIG_KEY, null); await setDB(FOOTER_KEY, null); await setDB(TOPBAR_KEY, null); await setDB(ADS_KEY, null); await setDB(SIDE_WIDGETS_KEY, null); window.location.reload(); } }
         function openModal(id) { document.getElementById(id).style.display = "flex"; } function closeModal(id) { document.getElementById(id).style.display = "none"; }
         function showSuccess(title, msg) { document.getElementById('actionTitle').innerText = title; document.getElementById('actionMessage').innerHTML = msg; openModal('actionSuccessModal'); }
         function startTimer() { let t = (3 * 3600) + (45 * 60) + 30; setInterval(() => { if(t<=0) return; t--; document.getElementById('hours').innerText = Math.floor(t / 3600).toString().padStart(2, '0'); document.getElementById('minutes').innerText = Math.floor((t % 3600) / 60).toString().padStart(2, '0'); document.getElementById('seconds').innerText = (t % 60).toString().padStart(2, '0'); }, 1000); }
