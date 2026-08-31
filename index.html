@@ -324,13 +324,12 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             background: #000;
             user-select: none;
-            resize: both;
-            min-width: 100px;
-            min-height: 60px;
+            width: 260px;
+            height: 180px;
             display: none;
         }
-        .floating-widget img, .floating-widget video, .floating-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .widget-drag-handle, .video-drag-handle { background: rgba(46, 204, 113, 0.9); color: white; font-size: 9px; text-align: center; padding: 2px; font-weight: bold; letter-spacing: 1px; cursor: move; }
+        .floating-widget img, .floating-widget video, .floating-video video { width: 100%; height: calc(100% - 18px); object-fit: cover; display: block; }
+        .widget-drag-handle, .video-drag-handle { background: rgba(46, 204, 113, 0.9); color: white; font-size: 9px; text-align: center; padding: 2px; font-weight: bold; letter-spacing: 1px; cursor: move; height: 18px; }
     </style>
 </head>
 <body>
@@ -874,6 +873,27 @@
         </div>
     </div>
 
+    <!-- Firebase SDK Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC0-EJhtvlMWW8GT3ip-JSCVkAo0cK4egk",
+            authDomain: "robiuldp-a3282.firebaseapp.com",
+            projectId: "robiuldp-a3282",
+            storageBucket: "robiuldp-a3282.firebasestorage.app",
+            messagingSenderId: "465562762191",
+            appId: "1:465562762191:web:02dd8ecbff4d7696c6f0ba",
+            measurementId: "G-2YVSXKZ52E"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        console.log("Firebase Connected Successfully!");
+    </script>
+
     <script>
         const CAT_KEY = 'eG_Cat_65'; const PROD_KEY = 'eG_Prod_65'; const BANNER_KEY = 'eG_Ban_65'; const LOGO_KEY = 'eG_Logo_65'; const ORDERS_KEY = 'eG_Ord_65'; const PAY_SET_KEY = 'eG_PaySet_65'; const NOTICE_KEY = 'eG_Notice_65'; const VIDEO_KEY = 'eG_Vid_65'; const VID_CONFIG_KEY = 'eG_VidConf_65'; const FOOTER_KEY = 'eG_Footer_65'; const TOPBAR_KEY = 'eG_TopBar_65'; const ADS_KEY = 'eG_Ads_65'; const SIDE_WIDGETS_KEY = 'eG_SideWidgets_65';
         let currentUser = localStorage.getItem('eG_User');
@@ -975,7 +995,7 @@
 
         const defaultSideWidgets = [
             { id: 'sw1', url: 'https://picsum.photos/250/300?random=10', show: 'show', side: 'right', top: '150px', right: '3%', width: '220px', height: '180px', opacity: 1.0 },
-            { id: 'sw2', url: 'https://picsum.photos/250/350?random=11', show: 'show', side: 'right', top: '350px', right: '3%', width: '220px', height: '320px', opacity: 1.0 }
+            { id: 'sw2', url: 'https://picsum.photos/250/350?random=11', show: 'show', side: 'right', top: '350px', right: '3%', width: '220px', height: '220px', opacity: 1.0 }
         ];
 
         const dbPromise = new Promise((resolve) => { const req = indexedDB.open('eGoodsy_V65', 1); req.onupgradeneeded = (e) => e.target.result.createObjectStore('store'); req.onsuccess = (e) => resolve(e.target.result); });
@@ -1083,7 +1103,7 @@
         async function loadNotice() { let notice = await getDB(NOTICE_KEY); if(notice) document.getElementById('displayNotice').innerText = "📢 " + notice; }
         async function updateNotice() { let noticeTxt = document.getElementById('adminNoticeInput').value; if(noticeTxt) { await setDB(NOTICE_KEY, noticeTxt); await loadNotice(); alert("Notice Updated Successfully!"); document.getElementById('adminNoticeInput').value = ''; } }
 
-        // Side Widgets Loader (फিক্সড এবং অপ্টিমাইজড)
+        // Side Widgets Loader
         async function loadSideWidgets() {
             let widgets = await getDB(SIDE_WIDGETS_KEY);
             if(!widgets) { widgets = defaultSideWidgets; await setDB(SIDE_WIDGETS_KEY, widgets); }
@@ -1100,8 +1120,8 @@
                     div.style.top = w.top;
                     if(w.side === 'left') { div.style.left = w.left || '20px'; div.style.right = 'auto'; }
                     else { div.style.right = w.right || '3%'; div.style.left = 'auto'; }
-                    div.style.width = w.width || '220px';
-                    div.style.height = w.height || '300px';
+                    div.style.width = w.width || '260px';
+                    div.style.height = w.height || '180px';
                     div.style.opacity = w.opacity !== undefined ? w.opacity : 1.0;
 
                     let handleHTML = `<div class="widget-drag-handle" onmousedown="startWidgetDragging(event, ${index})">DRAG / MOVE ✥</div>`;
@@ -1133,8 +1153,8 @@
                         top: (150 + (widgets.length * 50)) + 'px',
                         right: side === 'right' ? '3%' : 'auto',
                         left: side === 'left' ? '20px' : 'auto',
-                        width: '220px',
-                        height: '300px',
+                        width: '260px',
+                        height: '180px',
                         opacity: opacity
                     };
                     widgets.push(newWidget);
@@ -1146,7 +1166,6 @@
                 };
                 reader.readAsDataURL(file);
             } else {
-                // ফাইল সিলেক্ট না করলে সেটিংস আপডেট হবে
                 if(widgets.length > 0) {
                     widgets[widgets.length - 1].show = show;
                     widgets[widgets.length - 1].side = side;
@@ -1268,7 +1287,7 @@
             filesInput.value = "";
         }
 
-        // Floating Video Loader (फিক্সড এবং অপ্টিমাইজড)
+        // Floating Video Loader
         async function loadVideo() {
             let config = await getDB(VID_CONFIG_KEY) || { url: "https://www.w3schools.com/html/mov_bbb.mp4", show: "hide", count: 1, dragPerm: "admin", opacity: 1.0 };
             let wrapper = document.getElementById('videoPlayersWrapper'); 
@@ -1281,8 +1300,10 @@
                 div.className = 'floating-video'; 
                 div.id = 'floatingVid_' + i;
                 div.style.display = 'block';
-                div.style.right = (3 + (i * 12)) + '%'; 
-                div.style.top = (120 + (i * 150)) + 'px';
+                div.style.width = '260px'; 
+                div.style.height = '180px'; 
+                div.style.right = (3 + (i * 15)) + '%'; 
+                div.style.top = (120 + (i * 200)) + 'px';
                 div.style.opacity = config.opacity !== undefined ? config.opacity : 1.0;
                 
                 let handleHTML = (isAdminLoggedIn || config.dragPerm === "all") ? `<div class="video-drag-handle" style="display:block;" onmousedown="startDragging(event, ${i})">DRAG ME ✥</div>` : ``;
@@ -1632,31 +1653,4 @@
         function startTimer() { let t = (3 * 3600) + (45 * 60) + 30; setInterval(() => { if(t<=0) return; t--; document.getElementById('hours').innerText = Math.floor(t / 3600).toString().padStart(2, '0'); document.getElementById('minutes').innerText = Math.floor((t % 3600) / 60).toString().padStart(2, '0'); document.getElementById('seconds').innerText = (t % 60).toString().padStart(2, '0'); }, 1000); }
     </script>
 </body>
-    // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyC0-EJhtvlMWW8GT3ip-JSCVkAo0cK4egk",
-  authDomain: "robiuldp-a3282.firebaseapp.com",
-  projectId: "robiuldp-a3282",
-  storageBucket: "robiuldp-a3282.firebasestorage.app",
-  messagingSenderId: "465562762191",
-  appId: "1:465562762191:web:02dd8ecbff4d7696c6f0ba",
-  measurementId: "G-2YVSXKZ52E"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-    {
-  "rules": {
-    ".read": false,
-    ".write": false
-  }
-}
 </html>
