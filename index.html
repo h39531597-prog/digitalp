@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Products Store</title>
+    <title>টপ বাই সেল - Top Buy Sell</title>
     <style>
         /* বেসিক স্টাইল */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -23,22 +23,12 @@
             top: 0;
             z-index: 1000;
             background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);<style>
-    /* মোবাইলে যেকোনো ফ্লোটিং ভিডিও এবং পপআপ অ্যাড/উইজেট সম্পূর্ণ বন্ধ রাখার জন্য */
-    @media (max-width: 768px) { 
-        .floating-video, 
-        .floating-widget, 
-        .modal { 
-            display: none !important; 
-        } 
-    }
-</style>
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; background: #fff; }
-        .logo { font-size: 22px; font-weight: bold; color: #2ecc71; cursor: pointer; display: flex; align-items: center; height: 35px; transition: transform 0.3s ease; }
-        .logo:hover { transform: scale(1.1); }
+        .logo { font-size: 20px; font-weight: bold; color: #2ecc71; cursor: pointer; display: flex; align-items: center; height: 40px; transition: transform 0.3s ease; }
+        .logo:hover { transform: scale(1.05); }
         .logo img { max-height: 100%; object-fit: contain; transition: transform 0.3s ease; }
-        .logo img:hover { transform: scale(1.1); }
         
         .search-bar { width: 45%; position: relative; display: flex; align-items: center; border: 2px solid #2ecc71; border-radius: 25px; overflow: hidden; background: #fff; }
         .search-bar input { width: 100%; padding: 8px 12px; border: none; outline: none; font-size: 14px; }
@@ -367,6 +357,13 @@
         }
         .floating-widget img, .floating-widget video, .floating-video video { width: 100%; height: calc(100% - 18px); object-fit: cover; display: block; }
         .widget-drag-handle, .video-drag-handle { background: rgba(46, 204, 113, 0.9); color: white; font-size: 9px; text-align: center; padding: 2px; font-weight: bold; letter-spacing: 1px; cursor: move; height: 18px; }
+
+        /* মোবাইলে ভিডিও এবং অ্যাড উইজেট বন্ধ রাখার জন্য মিডিয়া কুয়েরি */
+        @media (max-width: 768px) {
+            .floating-video, .floating-widget {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -375,10 +372,12 @@
 
     <div id="sideWidgetsWrapper"></div>
 
-    <div class="admin-notice"><span class="notice-text" id="displayNotice">📢 Admin Notice: Welcome to our store! Get the best deals here.</span></div>
+    <div class="admin-notice"><span class="notice-text" id="displayNotice">📢 Admin Notice: Welcome to টপ বাই সেল store! Get the best deals here.</span></div>
     <div class="sticky-header-wrapper">
         <div class="container header">
-            <div class="logo" id="siteLogo" onclick="toggleView('shop')">eGoodsy</div>
+            <div class="logo" id="siteLogo" onclick="toggleView('shop')">
+                <img src="watermarked_img_13549971715171506426.jpg" alt="টপ বাই সেল" style="height: 38px;">
+            </div>
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Search product or tag..." oninput="handleUserSearch(this.value)">
                 <button class="search-btn-custom" onclick="executeUserSearch()">Search</button>
@@ -440,7 +439,7 @@
             <div class="footer-links">
                 <span>About Us</span> | <span>Refund and Returns</span> | <span>Terms & Condition</span> | <span>Privacy Policy</span>
             </div>
-            <div class="footer-copy">Copyright © 2025 www.egoodsy.eu</div>
+            <div class="footer-copy">Copyright © 2026 টপ বাই সেল (Top Buy Sell)</div>
         </div>
         <br><br>
     </div>
@@ -883,14 +882,7 @@
             <button class="admin-btn-save" style="width: 100%; margin-top: 10px;" onclick="processAdminLogin()">Verify & Login</button>
         </div>
     </div>
-<style>
-    /* আগের অন্যান্য সিএসএস কোডগুলো... */
 
-    /* মোবাইলে ফ্লোটিং ভিডিও বন্ধ রাখার কোড */
-    @media (max-width: 768px) { 
-        .floating-video { display: none !important; } 
-    }
-</style>
     <!-- Login / Sign Up Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
@@ -1084,7 +1076,7 @@
         ];
 
         const defaultPaySettings = {
-            bkash: { logo: "https://i.imgur.com/K1LgA0D.png", number: "01332301478", instructions: "To order Kindly complete payment and let us know.\n✓ Make Payment Bkash - 01332301478 (Merchant)\n⚠️ Bkash Personal - সেন্ড মানি করবেন, বিকাশ থেকে Send Money অপশন থেকে Taka পাঠাবেন।" },
+            bkash: { logo: "https://i.imgur.com/K1LgA0D.png", number: "01332301478", instructions: "To order Kindly complete payment and let us know.\n✓ Make Payment Bkash - 01332301478 (Merchant)\n⚠️ Bkash Personal - সেন্ড মানি করবেন, বিকাশ থেকে Send Money অপশন থেকে Taka পাঠাবেন。" },
             binance: { logo: "https://i.imgur.com/Qh0Q7Bq.png", id: "123456789", instructions: "Send USDT via Binance Pay to the ID above." }
         };
 
@@ -1100,7 +1092,6 @@
             { id: 'sw1', url: 'https://picsum.photos/250/300?random=10', show: 'show', side: 'right', top: '235px', right: '3%', width: '260px', height: '180px', opacity: 1.0 }
         ];
 
-        // ডিফল্ট ব্যানারগুলো সরাসরি অনলাইন প্রফেশনাল এআই লিংক দিয়ে সেট করা হলো যাতে লাইভে কোনো সমস্যা না হয়
         const customUserBanners = [
             "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
             "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=80",
@@ -1305,7 +1296,7 @@
                 closeModal('loginModal');
                 document.getElementById('authEmail').value = "";
                 document.getElementById('authPassword').value = "";
-                showSuccess("Login Successful", "Welcome back to eGoodsy!");
+                showSuccess("Login Successful", "Welcome back to টপ বাই সেল!");
             }
         }
 
@@ -1979,7 +1970,7 @@
             await setDB(PROD_KEY, prods); reloadData(); closeModal('editProductModal'); 
         }
 
-        async function loadLogo() { let logo = await getDB(LOGO_KEY); document.getElementById('siteLogo').innerHTML = logo ? `<img src="${logo}">` : "eGoodsy"; }
+        async function loadLogo() { let logo = await getDB(LOGO_KEY); document.getElementById('siteLogo').innerHTML = logo ? `<img src="${logo}">` : `<img src="watermarked_img_13549971715171506426.jpg" alt="টপ বাই সেল" style="height: 38px;">`; }
         async function updateLogo() { let file = document.getElementById('adminLogoInput').files[0]; if(file) { await setDB(LOGO_KEY, await compressImage(file, 400)); loadLogo(); alert("Logo Updated!"); } }
         async function updateBanners() { let files = document.getElementById('adminBannerInput').files; if(files.length===0) return; let images = []; for (let i = 0; i < files.length; i++) images.push(await compressImage(files[i], 1200)); await setDB(BANNER_KEY, images); renderBanners(); }
         async function renderBanners() { let banners = await getDB(BANNER_KEY) || customUserBanners; let slider = document.getElementById('mainBannerSlider'); clearInterval(slideInterval); if (banners.length === 0) return; slider.style.border = "none"; slider.innerHTML = ""; banners.forEach((src, i) => { slider.innerHTML += `<div class="banner-slide ${i === 0 ? 'active' : ''}" style="background-image: url('${src}');"></div>`; }); if(banners.length > 1) slideInterval = setInterval(() => { let slides = document.querySelectorAll('.banner-slide'); slides[currentSlide].classList.remove('active'); currentSlide = (currentSlide + 1) % slides.length; slides[currentSlide].classList.add('active'); }, 3000); }
