@@ -23,7 +23,16 @@
             top: 0;
             z-index: 1000;
             background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);<style>
+    /* মোবাইলে যেকোনো ফ্লোটিং ভিডিও এবং পপআপ অ্যাড/উইজেট সম্পূর্ণ বন্ধ রাখার জন্য */
+    @media (max-width: 768px) { 
+        .floating-video, 
+        .floating-widget, 
+        .modal { 
+            display: none !important; 
+        } 
+    }
+</style>
         }
         .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; background: #fff; }
         .logo { font-size: 22px; font-weight: bold; color: #2ecc71; cursor: pointer; display: flex; align-items: center; height: 35px; transition: transform 0.3s ease; }
