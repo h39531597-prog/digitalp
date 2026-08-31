@@ -571,7 +571,7 @@
         </div>
     </div>
 
-    <!-- User Dashboard (প্রোফাইল ছবি আপলোড অপশন সহ) -->
+    <!-- User Dashboard -->
     <div id="user-dashboard">
         <div class="container user-layout">
             <div class="user-sidebar" style="text-align: center; padding: 20px;">
@@ -638,7 +638,6 @@
                     </table>
                 </div>
 
-                <!-- ইউজার ম্যানেজমেন্ট ট্যাব (ডিলিট ও ব্লক অপশন সহ) -->
                 <div id="sec-users" class="admin-section">
                     <p style="margin-bottom: 15px; color:#7f8c8d;">Manage registered users (Delete or Block).</p>
                     <table>
@@ -647,7 +646,6 @@
                     </table>
                 </div>
 
-                <!-- ল্যান্ডিং পেজ ক্রিয়েটর -->
                 <div id="sec-landing" class="admin-section">
                     <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 20px;">
                         <h4 style="margin-bottom: 15px; color:#2c3e50;">Create / Upload Landing Page</h4>
@@ -1086,10 +1084,11 @@
             { id: 'sw1', url: 'https://picsum.photos/250/300?random=10', show: 'show', side: 'right', top: '235px', right: '3%', width: '260px', height: '180px', opacity: 1.0 }
         ];
 
+        // ডিফল্ট ব্যানারগুলো সরাসরি অনলাইন প্রফেশনাল এআই লিংক দিয়ে সেট করা হলো যাতে লাইভে কোনো সমস্যা না হয়
         const customUserBanners = [
-            "d77f32af-f8f2-47ad-9fe4-0588ae64b827.jfif",
-            "5f5e0135-8755-43f2-9821-b8a4bdf82ced.jfif",
-            "e1d5eac7-1ab8-4a10-81c6-ea5074066562.jfif"
+            "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=1200&q=80"
         ];
 
         const dbPromise = new Promise((resolve) => { const req = indexedDB.open('eGoodsy_V65', 1); req.onupgradeneeded = (e) => e.target.result.createObjectStore('store'); req.onsuccess = (e) => resolve(e.target.result); });
@@ -1102,7 +1101,7 @@
 
             let vidConf = await getDB(VID_CONFIG_KEY);
             if(!vidConf) {
-                await setDB(VID_CONFIG_KEY, { url: "", show: "show", count: 1, dragPerm: "admin", opacity: 1.0 });
+                await setDB(VID_CONFIG_KEY, { url: "https://www.w3schools.com/html/mov_bbb.mp4", show: "show", count: 1, dragPerm: "admin", opacity: 1.0 });
             }
 
             if(currentUser) {
@@ -1613,7 +1612,7 @@
         }
 
         async function loadVideo() {
-            let config = await getDB(VID_CONFIG_KEY) || { url: "", show: "show", count: 1, dragPerm: "admin", opacity: 1.0 };
+            let config = await getDB(VID_CONFIG_KEY) || { url: "https://www.w3schools.com/html/mov_bbb.mp4", show: "show", count: 1, dragPerm: "admin", opacity: 1.0 };
             let wrapper = document.getElementById('videoPlayersWrapper'); 
             wrapper.innerHTML = "";
             
@@ -1652,7 +1651,7 @@
             let opacity = parseFloat(document.getElementById('adminVideoOpacity').value) || 1.0;
             let fileInput = document.getElementById('adminVideoInput');
 
-            let oldConfig = await getDB(VID_CONFIG_KEY) || { url: "" }; 
+            let oldConfig = await getDB(VID_CONFIG_KEY) || { url: "https://www.w3schools.com/html/mov_bbb.mp4" }; 
             let videoUrl = oldConfig.url;
 
             if (fileInput.files && fileInput.files[0]) {
